@@ -1,0 +1,210 @@
+{% extends 'site/master.html' %}
+{% load static %}
+{% block content %}
+        <!-- panel-style -->
+        <style>
+          .myPanel{
+              height: 100vh;
+              background: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.7)),url({% static 'panelimg.jpg'%});
+              background-position: center;
+              background-repeat: no-repeat;
+              background-size: cover;
+          }
+          .card-body{
+            background-color: #121212;
+          }
+          .list-group li{
+            background-color: #121212 !important;
+          }
+          </style>
+        <!-- panel-style end -->
+          
+        <div class="myPanel col-lg-2 col-md-3 col-sm-4 mr-auto bg-danger fixed-top">
+            <h2  class="titlePanel">Panel</h2>
+            <ul class="nav mt-5 d-flex flex-column" role="tablist">
+                <li class="nav-item py-3 ">
+                    <a data-toggle="tab" role="tab" class="nav-link active" href="#Profile"><i class="fa-solid fa-user"></i> Profile</a>
+                </li>
+                <li class="nav-item py-3 ">
+                    <a data-toggle="tab" role="tab" class="nav-link " href="#myItems"><i class="fa-solid fa-bag-shopping"></i> My items</a>
+                </li>
+                <li class="nav-item py-3 ">
+                    <a data-toggle="tab" role="tab" class="nav-link" href="#Orders"><i class="fa-sharp fa-solid fa-cart-shopping"></i> Orders</a>
+                </li>
+                <li class="nav-item py-3 ">
+                    <a data-toggle="tab" role="tab" class="nav-link" href="#Operations"><i class="fa-solid fa-list-check"></i> Operation</a>
+                </li>
+                <li class="nav-item py-3 ">
+                    <a data-toggle="tab" role="tab" class="nav-link" href="#History"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+                </li>
+                {%if request.user.is_superuser %}  
+                <li class="nav-item py-3 ">
+                  <a data-toggle="tab" role="tab" class="nav-link" href="#Setting"><i class="fa-solid fa-virus"></i> Setting</a>
+              </li>
+                {% endif %}
+            </ul> 
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8 ml-auto p-0 mt-5">
+          {% include 'site/navbar.html'%}
+                <div class="tab-content">
+                    <!-- profile -->
+                    <div class="tab-pane fade show active" id="Profile" role="tabpanel">
+                        <div class="container">
+                            <div class="main-body">
+                                  <div class="row gutters-sm">
+                                    <div class="col-md-4 mb-3">
+                                      <div class="card">
+                                        <div class="card-body">
+                                          <div class="d-flex flex-column align-items-center text-center">
+                                            <img src="{{request.user.user.profile.url}}" alt="Admin" class="rounded-circle" width="150">
+                                            <div class="mt-3">
+                                              <h4>{{request.user.username}}</h4>
+                                              <p>{{request.user.user.bio}}</p>
+                                              <button class="btn btn-outline-primary">Message</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                      <div class="card mb-3">
+                                        <div class="card-body">
+                                          <div class="row">
+                                            <div class="col-sm-3">
+                                              <h6 class="mb-0">User Name</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                              {{request.user.username}}
+                                            </div>
+                                          </div>
+                                          <hr>
+                                          <div class="row">
+                                            <div class="col-sm-3">
+                                              <h6 class="mb-0">Email</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                              {{request.user.email}}
+                                            </div>
+                                          </div>
+                                          <hr>
+                                          <div class="row">
+                                            <div class="col-sm-3">
+                                              <h6 class="mb-0">Gender</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                              {{request.user.user.gender}}
+                                            </div>
+                                          </div>
+                                          <hr>
+                                          <div class="row">
+                                            <div class="col-sm-12">
+                                              <a class="btn btn-info ml-5" target="__blank" href="/userEdit">Edit</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                        
+                
+                                    </div>
+                                  </div>
+                                  <div class="card mt-3">
+                                    <ul class="list-group list-group-flush">
+                                      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe mr-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>Website</h6>
+                                        <span class="text-secondary">{{request.user.user.website}}</span>
+                                      </li>
+                                      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github mr-2 icon-inline"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>Github</h6>
+                                        <span class="text-secondary">{{request.user.user.github}}</span>
+                                      </li>
+                                      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram mr-2 icon-inline text-danger"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>Instagram</h6>
+                                        <span class="text-secondary">{{request.user.user.instagram}}</span>
+                                      </li>
+                                      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                        <div class="d-flex align-items-center">
+                                          <i class="fa-brands fa-telegram fa-2x text-primary"></i>
+                                          <h6 class="d-inline ml-1">Telegram</h6>
+                                        </div>
+                                        <span class="text-secondary">{{request.user.user.telegram}}</span>
+                                      </li>
+                                    </ul>
+                                  </div>
+                            </div>
+                        </div>
+    
+                    </div>
+                    <!-- end -->
+                    <div class="tab-pane fade " id="myItems" role="tabpanel">
+                        <!-- myitems -->
+                        <div class="row">
+                           {% for item in myItems %}
+                           <div class="col-lg-4 p-5">
+                            <div class="product-grid">
+                                <div class="product-image">
+                                    <a href="/items/details/{{item.id}}" class="image">
+                                        <img class="pic-1" src="{{ item.img1.url }}">
+                                        {% if item.img2 %}
+                                        <img class="pic-2" src="{{ item.img2.url }}">
+                                        {%else%}
+                                        <img class="pic-2" src="{{ item.img1.url }}">
+                                        {% endif %}
+                                    </a>
+                                    <span class="product-hot-label">hot</span>
+                                    <ul class="product-links">
+                                        <li><a href="#" data-tip="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product-content">
+                                    <a class="add-to-cart" href="#">
+                                        {{item.name}}
+                                    </a>
+                                    <h3 class="title"><a href="#">{{item.name}}</a></h3>
+                                    <ul class="rating">
+                                        <li class="fas fa-star"></li>
+                                        <li class="fas fa-star"></li>
+                                        <li class="fas fa-star"></li>
+                                        <li class="far fa-star"></li>
+                                        <li class="far fa-star"></li>
+                                    </ul>
+                                    <div class="price">{{item.price}} $</div>
+                                </div>
+                            </div>
+                          </div>
+                           {% endfor%}
+                        </div>
+                        <!-- myitems end -->
+                    </div>
+                    <div class="tab-pane fade" id="Orders" role="tabpanel">
+                        <h1>Orders Coming soon...</h1>
+                    </div>
+                    <div class="tab-pane fade" id="Operations" role="tabpanel">
+                        <h1>Operations Coming soon...</h1>
+                    </div>
+                    <div class="tab-pane fade" id="History" role="tabpanel">
+                        <h1>History Coming soon...</h1>
+                    </div>
+                    {%if request.user.is_superuser %}  
+                    <div class="tab-pane fade" id="Setting" role="tabpanel">
+                      <div class="p-5">
+                        <a class="btn btn-success" href="/dashbord/createBanner/">Create a new Banner</a>
+                      </div>
+                      <div class="row">
+                        {% for ban in banner %}
+                        <div class="col-md-3 shadow">
+                          <a href="/dashbord/deleteBanner/{{ban.id}}" class="btn btn-danger mx-auto">Delete</a>
+                          <a href="/dashbord/editBanner/{{ban.id}}">
+                            <h1>{{ban.name}}</h1>
+                            <h3>{{ban.type}}</h3>
+                            <p>{{ban.dis}}</p>
+                            <img src="{{ban.img.url}}" class="img-fluid" alt="">
+                          </a>
+                        </div>
+                        {%endfor%}
+                      </div>
+                    </div>
+                    {% endif %}
+                </div> 
+        </div>
+    
+    {% endblock %}

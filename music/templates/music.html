@@ -1,0 +1,221 @@
+{% extends 'site/master.html' %}
+{% load static %}
+
+{% block title %}
+Music
+{% endblock %}
+
+
+{% block content%}
+{% include 'site/navbar.html '%}
+<style>
+    body {
+    background-color: #121212;
+    color: white;
+}
+
+.musicPlayer {
+    text-align: center;
+}
+
+.MusicCover {
+    display: block;
+    width: 100%;
+    border-radius: 50%;
+    animation: grow 0.5s ease-in-out infinite alternate ;
+    animation-play-state: paused;
+    box-shadow: 0px 0px 40px -10px royalblue;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@keyframes grow {
+    0% {
+        box-shadow: 0px 0px 40px -5px red;
+    }
+    100% {
+        box-shadow: 0px 0px 40px 10px royalblue;
+    }
+}
+
+.MusicRange {
+    width: 300px;
+}
+
+.btns {
+    padding: 20px;
+    margin-left: auto;
+    width: 200px;
+    display: flex;
+    justify-content: space-around;
+    margin-right: auto;
+}
+
+.btns i {
+    font-size: 20px;
+}
+</style>
+<div class="musicPlayer mt-5">
+    <h1 class="MusicTitle">Name Music</h1>
+    <img class="MusicCover" src="" alt="">
+    <input class="MusicRange" type="range" value="0">
+    <div class="btns">
+        <i class="fa fa-backward btn-pre"></i>
+        <i class="fa fa-play btn-play"></i>
+        <i class="fa fa-forward btn-next"></i>
+    </div>
+</div>
+
+
+
+<script>
+    let musics = [
+        {
+            name : 'music1',
+            cover : '{% static "1.jpg" %}',
+            audio : new Audio('{% static "musics/1.mp3" %}')
+        },
+        {
+            name : 'music2',
+            cover : '{% static "1.jpg" %}',
+            audio : new Audio('{% static "musics/2.mp3" %}')
+        },
+        {
+            name : 'music3',
+            cover : '{% static "1.jpg" %}',
+            audio : new Audio('{% static "musics/3.mp3" %}')
+        },
+    ]
+
+    
+
+    
+        document.querySelector('.MusicTitle').innerText =  musics[0].audio 
+        document.querySelector('.MusicCover').src = musics[0].cover
+        document.querySelector('.MusicRange').value = musics[0].audio.duration 
+        
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <script>
+    let musics = [{
+    name: "cold",
+    cover: "./1.jpg",
+    audio: new Audio('./1.mp3')
+},
+{
+    name: "baby",
+    cover: "./2.jpg",
+    audio: new Audio('./2.mp3')
+},
+{
+    name: "one",
+    cover: "./3.jpg",
+    audio: new Audio('./3.mp3')
+}
+
+]
+let title =  document.querySelector('.MusicTitle')
+let cover =   document.querySelector('.MusicCover')
+let range =  document.querySelector('.MusicRange')
+let btnPre =   document.querySelector('.btn-pre')
+let btnPlay =  document.querySelector('.btn-play')
+let btnNext =  document.querySelector('.btn-next')
+let currentMusic =0
+let audio = musics[currentMusic].audio
+cover.src = musics[currentMusic].cover
+title.innerText = musics[currentMusic].name
+
+audio.addEventListener('canplay',e=>{
+    range.max = audio.duration
+})
+
+audio.addEventListener('timeupdate',e=>{
+    range.value = audio.currentTime
+})
+
+range.addEventListener('input', e=>{
+    audio.currentTime = range.value 
+})
+
+btnPlay.addEventListener('click',e=>{
+    if(audio.paused){
+        audio.play()
+        cover.style.animationPlayState = "running"
+        btnPlay.classList.replace('fa-play','fa-pause')
+    }else{
+        audio.pause()
+        cover.style.animationPlayState = "paused"
+        btnPlay.classList.replace('fa-pause','fa-play')
+    }
+})
+
+btnNext.addEventListener('click',e=>{
+    btn("next")
+})
+
+btnPre.addEventListener('click',e=>{
+btn('Pre')
+})
+
+function btn(state){
+    audio.pause()
+    range.value = 0 
+    audio.currentTime = range.value
+    cover.style.animationPlayState = "paused"
+    btnPlay.classList.replace('fa-play','fa-pause')
+    if(state == 'next'){
+        if(currentMusic==musics.length-1)
+            currentMusic = 0
+        else currentMusic+=1
+    }
+    else if (state == 'Pre') {
+        if(currentMusic==0)
+            currentMusic =musics.length-1
+        else currentMusic-=1
+    }
+    title.innerText = musics[currentMusic].name
+    cover.src = musics[currentMusic].cover
+    audio = musics[currentMusic].audio
+
+    audio.addEventListener('timeupdate',e=>{
+        range.value = audio.currentTime
+    })
+    audio.play()
+    
+    audio.addEventListener('ended',e=>{
+        btnPlay.classList.replace('fa-pause','fa-play')
+        cover.style.animationPlayState = "paused"
+    })
+}
+    
+audio.addEventListener('ended',e=>{
+    btnPlay.classList.replace('fa-pause','fa-play')
+    cover.style.animationPlayState = "paused"
+})
+</script> -->
+{% endblock %}

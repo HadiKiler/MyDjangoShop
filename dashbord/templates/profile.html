@@ -1,0 +1,87 @@
+{% extends 'site/master.html' %}
+{% load static %}
+
+{% block title %}
+Login
+{% endblock %}
+
+
+{% block content%}
+{% include 'site/navbar.html '%}
+<style>
+    .profile-head {
+    transform: translateY(5rem)
+}
+
+.cover {
+    background-image: url(https://images.unsplash.com/photo-1530305408560-82d13781b33a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80);
+    background-size: cover;
+    background-repeat: no-repeat
+}
+
+body {
+    background: #654ea3;
+    background: linear-gradient(to right, #e96443, #904e95);
+    min-height: 100vh;
+    overflow-x:hidden;
+}
+</style>
+<div class="row py-5 px-4">
+    <div class="col-md-5 mx-auto">
+        <!-- Profile widget -->
+        <div class="bg-white shadow rounded overflow-hidden">
+            <div class="px-4 pt-0 pb-4 cover">
+                <div class="media align-items-end profile-head">
+                    <div class="profile mr-3">
+                        <img src="{{user.user.profile.url}}" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+                        {% if user == request.user %}
+                        <a href="/userEdit/" class="btn btn-outline-dark btn-sm btn-block">Edit Profile</a>
+                        {%else%}
+                        <a href="/dashbord/Follow/?follow={{user.username}}" class="btn btn-outline-dark btn-sm btn-block">{% if followed %}UnFollow{%else%}Follow{%endif%}</a>
+                        {%endif%}
+                    </div>
+                    <div class="media-body mb-5 text-white">
+                        <h4 class="mt-0 mb-0">{{user.username}}</h4>
+                        <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>New York</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-light p-4 d-flex justify-content-end text-center">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block text-dark">{{items.count}}</h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Items</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block text-dark">{{followers}}</h5><small class="text-muted"> <i
+                                class="fas fa-user mr-1"></i>Followers</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block text-dark">{{following}}</h5><small class="text-muted"> <i
+                                class="fas fa-user mr-1"></i>Following</small>
+                    </li>
+                </ul>
+            </div>
+            <div class="px-4 py-3">
+                <h5 class="mb-0 text-dark">About</h5>
+                <div class="p-4 rounded shadow-sm bg-light">
+                    <p class="font-italic mb-0 text-dark">{{user.user.bio}}</p>
+                </div>
+            </div>
+            <div class="py-4 px-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="mb-0 text-dark">items</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                </div>
+                <div class="row">
+                    {% for item in items %}
+                    <div class="col-lg-6 mb-2 pr-lg-1">
+                        <a href="/items/details/{{item.id}}">
+                            <img src="{{item.img1.url}}" alt="" class="img-fluid rounded shadow-sm">
+                            <h4 class="text-center text-dark my-2">{{item.name}}</h4>
+                        </a>
+                    </div>
+                    {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

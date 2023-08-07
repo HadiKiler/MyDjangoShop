@@ -1,0 +1,38 @@
+{% extends 'site/master.html' %}
+{% load static %}
+
+{% block title %}
+Login
+{% endblock %}
+
+
+{% block content%}
+{% include 'site/navbar.html '%}
+<section style="margin-top: 100px;">
+    <div class="container row shadow mx-auto bg-white text-dark rounded-lg ">
+        <div class="col-md-6">
+            <img src="{{item.img1.url}}" class="img-fluid" alt="">
+        </div>
+        <div class="col-md-6 d-flex flex-column justify-content-around text-center">
+            <h1 class="text-center my-4">{{item.name}}</h1>
+
+            <div class="">
+                <h4 class="mt-4 bg-light">{{item.dis}}</h4>
+            </div>
+    
+            <div class="text-center">
+                <span class="mr-4">price</span>
+                <span class="text-success">{{item.price}} $</span>
+            </div>
+            <div class="text-center">
+                {%if item.created_by == request.user %}
+                <a href="/items/editItem/{{item.id}}" class="mr-3 btn btn-outline-success mt-auto">Edit</a>
+                <a href="/items/deleteItem/{{item.id}}" class="mr-3 btn btn-danger mt-auto">Delete</a>
+                {%else%}
+                <a href="" class="mr-3 btn btn-outline-primary mt-auto">Buy</a>
+                <a href="" class=" btn btn-outline-success">Mesaage</a></div>
+                {%endif%}
+            </div>
+    </div>
+</section>
+{% endblock %}

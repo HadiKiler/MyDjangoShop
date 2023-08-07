@@ -1,0 +1,77 @@
+{% extends 'site/master.html' %}
+{% load static %}
+
+{% block title %}
+items
+{% endblock %}
+
+
+{% block content%}
+{% include 'site/navbar.html '%}
+
+<h1 class="display-2 text-center" style="padding-top: 50px;">Categories</h1>
+<div class="row p-3">
+    {% for cat in category %}
+    <div class="col-lg-3 col-md-6">
+        <a href="/items/?Skey={{Skey}}&typeActive={{cat.id}}">
+          <div class="{% if cat.id == typeActive%}bg-dark{%endif%} p-3 border-0">
+            <img class="img-fluid" src="{{cat.img.url}}" alt="">
+            <h6 class="text-center mt-3">{{cat.name}}</h6>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+  </div>
+
+<p class="text-center"><a class="btn btn-info " href="/items/">Clear Filters</a></p>
+<div class="row mt-5 border-top">
+    {% for i in items %}
+    <div class="col-lg-4 p-5">
+        <div class="product-grid">
+            <div class="product-image">
+                <a href="/items/details/{{i.id}}" class="image">
+                    <img class="pic-1" src="{{ i.img1.url }}">
+                    {% if i.img2 %}
+                    <img class="pic-2" src="{{ i.img2.url }}">
+                    {%else%}
+                    <img class="pic-2" src="{{ i.img1.url }}">
+                    {% endif %}
+                </a>
+                <span class="product-hot-label">hot</span>
+                <ul class="product-links">
+                    <li><a href="/items/like?post_id={{i.id}}" data-tip="Add to Wishlist"><i class="far fa-heart {%for like in likedItems %}{%if like == i.id %}fas text-danger{%endif%}{%endfor%}"></i></a></li>
+                </ul>
+            </div>
+            <div class="product-content">
+                <div class="row">
+                   
+                    <div class="col-2">
+                        <a href="/profile/{{i.created_by.username}}">
+                            <img src="{{i.created_by.user.profile.url}}" class="img-fluid rounded-circle m-3" alt="">
+                        </a>
+                    </div>
+                    <div class="col-10 ">
+                        <a class="add-to-cart" href="#">
+                            <i class="fas fa-plus"></i>Add to cart
+                        </a>
+                        <h3 class="title"><a href="#">{{i.name}}</a></h3>
+                        <ul class="rating">
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="far fa-star"></li>
+                            <li class="far fa-star"></li>
+                        </ul>
+                        <div class="price">{% if i.off != 0 %} {{i.off}}% {%else%}{{i.price}}${%endif%}</div>
+                        <div class="text-dark"><h6>{% if i.likes == 0 %}No like {%else%}{{i.likes}} people liked <i class="fa-solid fa-thumbs-up fa-lg"></i>{%endif%}</h6></div>
+                    
+                            </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+</div>
+  {% include 'site/footer.html '%}
+  {% endblock %}
